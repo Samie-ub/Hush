@@ -45,7 +45,7 @@ struct NotchView: View {
                 case .customDuration: customDuration
                 case .mode: modeSelection
                 case .browserFocus:
-                    NotchFeatureContainer(title: "Focus Mode", symbol: "scope", done: openControls,
+                    NotchFeatureContainer(title: "Hush Mode", symbol: "scope", done: openControls,
                                           dragChanged: dragChanged, dragEnded: dragEnded) {
                         BrowserFocusSettingsView(focus: model.browserFocus, model: model)
                     }
@@ -169,7 +169,7 @@ struct NotchView: View {
             .accessibilityLabel("Duration, \(model.time)")
             .help(model.engine.isRunning ? "Pause to change duration" : "Change duration")
 
-            iconButton("scope", label: "Focus Mode", action: openBrowserFocus)
+            iconButton("scope", label: "Hush Mode", action: openBrowserFocus)
             iconButton("arrow.counterclockwise", label: "Reset") {
                 model.reset()
             }

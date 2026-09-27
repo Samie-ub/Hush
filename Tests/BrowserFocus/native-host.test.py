@@ -5,7 +5,7 @@ import struct
 import subprocess
 import unittest
 
-HOST = Path(__file__).resolve().parents[2] / 'dist/settime.app/Contents/MacOS/BrowserFocusHost'
+HOST = Path(__file__).resolve().parents[2] / 'dist/hush.app/Contents/MacOS/BrowserFocusHost'
 
 class NativeHostTests(unittest.TestCase):
     def test_multiple_framed_requests_and_eof(self):

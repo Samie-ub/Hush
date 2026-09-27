@@ -19,7 +19,7 @@ if [ "$ACTUAL_KEY" != "$EXPECTED_KEY" ]; then
     exit 1
 fi
 mkdir -p "$OUT"
-ditto -c -k --sequesterRsrc --keepParent "$PWD/dist/settime.app" "$OUT/settime-$VERSION.zip"
+ditto -c -k --sequesterRsrc --keepParent "$PWD/dist/hush.app" "$OUT/hush-$VERSION.zip"
 "$TOOLS/generate_appcast" --account "$ACCOUNT" --maximum-deltas 0 \
     --download-url-prefix "https://github.com/Samie-ub/notch-timer/releases/download/v$VERSION/" "$OUT"
 echo "Signed release assets ready: $OUT"

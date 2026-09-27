@@ -34,11 +34,7 @@ code { display: block; padding: 10px 11px; overflow-wrap: anywhere; border: 1px 
 footer { margin-top: 15px; color: var(--subtle); font-size: 10px; text-align: center; }
 .blocked-shell { width: min(100%, 520px); }
 .focus-card { margin-top: 36px; padding: 34px; border: 1px solid #2a3a41; border-radius: 24px; background: linear-gradient(145deg, #1a2931, #17242b); box-shadow: 0 24px 80px #050b0e66; }
-.focus-mark { position: relative; display: grid; width: 52px; height: 52px; margin-bottom: 25px; place-items: center; border: 2px solid var(--mint); border-radius: 50%; }
-.focus-mark::before { width: 10px; height: 10px; border-radius: 50%; background: var(--mint); content: ""; }
-.focus-mark span { position: absolute; border-radius: 2px; background: var(--mint); }
-.focus-mark span:first-child { width: 3px; height: 14px; top: -7px; box-shadow: 0 48px var(--mint); }
-.focus-mark span:last-child { width: 14px; height: 3px; left: -7px; box-shadow: 48px 0 var(--mint); }
+.focus-mark { display: block; width: 52px; height: 52px; margin-bottom: 25px; border-radius: 12px; }
 .focus-card .eyebrow { margin: 0 0 8px; }
 .focus-card h1 { margin: 0; font-size: clamp(28px, 6vw, 38px); }
 .session-status { margin: 10px 0 0; color: var(--mint); font-size: 15px; font-weight: 560; font-variant-numeric: tabular-nums; }

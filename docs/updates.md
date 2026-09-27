@@ -16,15 +16,16 @@ cannot trust releases signed with a replacement key.
 2. Increase both `version` and `build` in `config/updates.json` for each new release.
    Commit that metadata through the same workflow. Never reuse a published version.
 3. From the production commit, run `bash scripts/prepare-update.sh` on the Mac holding
-   the signing key. The first release is version `1.1.0`, build `2`.
-4. Review `dist/releases/1.1.0-2/`. It contains the ZIP and signed update entry in
+   the signing key.
+4. Review `dist/releases/<version>-<build>/`. It contains the ZIP and signed update entry in
    `appcast.xml`. The script does not publish. It refuses to overwrite a release folder.
-5. Publish a GitHub Release tagged `v1.1.0` at that exact production commit and upload
-   **both** `settime-1.1.0.zip` and `appcast.xml`. Mark it the latest non-prerelease.
-   For example, with GitHub CLI after explicitly authorizing publication:
+5. Publish a GitHub Release tagged `v<version>` at that exact production commit and upload
+   **both** `hush-<version>.zip` and `appcast.xml`. Mark it the latest non-prerelease.
+   For example, with GitHub CLI after explicitly authorizing publication and setting
+   `VERSION` and `BUILD` to the values in `config/updates.json`:
 
    ```sh
-   gh release create v1.1.0 dist/releases/1.1.0-2/settime-1.1.0.zip dist/releases/1.1.0-2/appcast.xml --target <production-commit> --title 'settime 1.1.0' --notes 'Adds signed in-app updates.' --latest
+   gh release create "v$VERSION" "dist/releases/$VERSION-$BUILD/hush-$VERSION.zip" "dist/releases/$VERSION-$BUILD/appcast.xml" --target <production-commit> --title "hush $VERSION" --notes 'Release notes' --latest
    ```
 
 The configured feed is

@@ -5,10 +5,10 @@ async function refresh() {
     const status = document.getElementById('status');
     const dot = document.getElementById('status-dot');
     status.textContent = state.active ? `Focus is on · ${state.domains.length} website${state.domains.length === 1 ? '' : 's'}` :
-      state.connected ? 'Connected · sites are unlocked' : 'Connect settime to get started';
+      state.connected ? 'Connected · sites are unlocked' : 'Connect hush to get started';
     dot.className = 'status-dot' + (state.active ? ' active' : state.connected ? '' : ' warning');
     document.getElementById('error').textContent = state.connected ? '' :
-      (state.error || 'Paste your extension ID into settime → Focus Mode → Connect Chrome.');
+      (state.error || 'Paste your extension ID into hush → Hush Mode → Connect Chrome.');
   } catch {
     document.getElementById('status').textContent = 'Extension unavailable';
     document.getElementById('error').textContent = 'Reload this extension in chrome://extensions.';

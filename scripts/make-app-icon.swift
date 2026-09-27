@@ -2,7 +2,7 @@ import AppKit
 import CoreGraphics
 import Foundation
 
-let output = CommandLine.arguments.dropFirst().first ?? "resources/settime.iconset"
+let output = CommandLine.arguments.dropFirst().first ?? "resources/hush.iconset"
 let iconset = URL(fileURLWithPath: output, isDirectory: true)
 try FileManager.default.createDirectory(at: iconset, withIntermediateDirectories: true)
 
@@ -15,7 +15,7 @@ func drawIcon(size: Int) throws -> Data {
         bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false,
         colorSpaceName: .deviceRGB, bytesPerRow: 0, bitsPerPixel: 0),
         let context = NSGraphicsContext(bitmapImageRep: bitmap) else {
-        throw NSError(domain: "SettimeIcon", code: 1)
+        throw NSError(domain: "HushIcon", code: 1)
     }
 
     NSGraphicsContext.saveGraphicsState()
@@ -29,64 +29,35 @@ func drawIcon(size: Int) throws -> Data {
     cg.setLineJoin(.round)
 
     cg.setFillColor(color(0.075, 0.12, 0.15))
-    cg.fill(CGRect(x: 0, y: 0, width: 1024, height: 1024))
-
-    // Small crown and short neck make the clock read as a timer at icon size.
-    cg.setFillColor(color(0.24, 0.38, 0.39))
-    cg.addPath(CGPath(roundedRect: CGRect(x: 474, y: 726, width: 76, height: 82), cornerWidth: 24, cornerHeight: 24, transform: nil))
-    cg.fillPath()
-    cg.setFillColor(color(0.46, 0.92, 0.72))
-    cg.addPath(CGPath(roundedRect: CGRect(x: 454, y: 790, width: 116, height: 34), cornerWidth: 17, cornerHeight: 17, transform: nil))
+    cg.addPath(CGPath(roundedRect: CGRect(x: 0, y: 0, width: 1024, height: 1024),
+                      cornerWidth: 220, cornerHeight: 220, transform: nil))
     cg.fillPath()
 
-    let center = CGPoint(x: 512, y: 500)
-    let radius: CGFloat = 248
-    let ring = CGMutablePath()
-    ring.addEllipse(in: CGRect(x: center.x - radius, y: center.y - radius,
-                               width: radius * 2, height: radius * 2))
-    cg.setStrokeColor(color(0.57, 0.79, 0.74, 0.17))
-    cg.setLineWidth(30)
-    cg.addPath(ring)
-    cg.strokePath()
-
-    // A 300-degree mint arc leaves a deliberate opening at the upper right.
-    let arc = CGMutablePath()
-    arc.addArc(center: center, radius: radius, startAngle: -.pi / 2,
-               endAngle: .pi * 7 / 6, clockwise: false)
-    cg.setStrokeColor(color(0.46, 0.94, 0.72))
-    cg.setLineWidth(30)
-    cg.addPath(arc)
-    cg.strokePath()
-
-    let faceRadius: CGFloat = 197
-    cg.setFillColor(color(0.055, 0.092, 0.105))
-    cg.fillEllipse(in: CGRect(x: center.x - faceRadius, y: center.y - faceRadius,
-                              width: faceRadius * 2, height: faceRadius * 2))
-    cg.setStrokeColor(color(0.75, 0.91, 0.86, 0.16))
-    cg.setLineWidth(3)
-    cg.strokeEllipse(in: CGRect(x: center.x - faceRadius, y: center.y - faceRadius,
-                                width: faceRadius * 2, height: faceRadius * 2))
-
-    cg.setStrokeColor(color(0.92, 0.98, 0.95))
-    cg.setLineWidth(21)
-    let minute = CGMutablePath()
-    minute.move(to: center)
-    minute.addLine(to: CGPoint(x: 512, y: 640))
-    cg.addPath(minute)
-    cg.strokePath()
-
-    let hour = CGMutablePath()
-    hour.move(to: center)
-    hour.addLine(to: CGPoint(x: 414, y: 452))
-    cg.addPath(hour)
-    cg.strokePath()
-
+    // A crescent and a quiet star give hush a simple mark that survives at 16 px.
     cg.setFillColor(color(0.46, 0.94, 0.72))
-    cg.fillEllipse(in: CGRect(x: 492, y: 480, width: 40, height: 40))
+    let moon = CGRect(x: 215, y: 240, width: 520, height: 520)
+    cg.fillEllipse(in: moon)
+    cg.saveGState()
+    cg.addEllipse(in: moon)
+    cg.clip()
+    cg.setFillColor(color(0.075, 0.12, 0.15))
+    cg.fillEllipse(in: CGRect(x: 350, y: 350, width: 480, height: 480))
+    cg.restoreGState()
+
+    let star = CGMutablePath()
+    star.move(to: CGPoint(x: 755, y: 765))
+    star.addQuadCurve(to: CGPoint(x: 805, y: 715), control: CGPoint(x: 764, y: 724))
+    star.addQuadCurve(to: CGPoint(x: 755, y: 665), control: CGPoint(x: 764, y: 706))
+    star.addQuadCurve(to: CGPoint(x: 705, y: 715), control: CGPoint(x: 746, y: 706))
+    star.addQuadCurve(to: CGPoint(x: 755, y: 765), control: CGPoint(x: 746, y: 724))
+    star.closeSubpath()
+    cg.setFillColor(color(0.92, 0.98, 0.95))
+    cg.addPath(star)
+    cg.fillPath()
     context.flushGraphics()
     NSGraphicsContext.restoreGraphicsState()
     guard let data = bitmap.representation(using: .png, properties: [:]) else {
-        throw NSError(domain: "SettimeIcon", code: 2)
+        throw NSError(domain: "HushIcon", code: 2)
     }
     return data
 }
@@ -101,7 +72,7 @@ let variants: [(String, Int)] = [
 for (name, size) in variants {
     try drawIcon(size: size).write(to: iconset.appendingPathComponent(name), options: .atomic)
 }
-// Focus Mode extension icons are generated separately by make-focus-icons.swift.
+// Hush Mode extension icons are generated separately by make-focus-icons.swift.
 
 let catalog: [[String: String]] = [
     ["filename": "icon_16x16.png", "idiom": "mac", "scale": "1x", "size": "16x16"],
@@ -142,4 +113,4 @@ for (type, filename) in chunks {
 var icns = Data("icns".utf8)
 appendBigEndian(UInt32(payload.count + 8), to: &icns)
 icns.append(payload)
-try icns.write(to: iconset.deletingLastPathComponent().appendingPathComponent("settime.icns"), options: .atomic)
+try icns.write(to: iconset.deletingLastPathComponent().appendingPathComponent("hush.icns"), options: .atomic)

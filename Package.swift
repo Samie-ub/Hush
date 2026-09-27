@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "NotchTimer",
+    name: "hush",
     platforms: [.macOS(.v14)],
     products: [.executable(name: "NotchTimer", targets: ["NotchTimer"])],
     dependencies: [.package(url: "https://github.com/sparkle-project/Sparkle", exact: "2.10.0")],

@@ -64,7 +64,7 @@ final class BrowserFocusController: ObservableObject {
     func revealExtension() {
         guard let resources = Bundle.main.resourceURL,
               FileManager.default.fileExists(atPath: resources.appendingPathComponent("browser-extension/manifest.json").path) else {
-            message = "Build and launch dist/settime.app to set up the extension."; return
+            message = "Build and launch dist/hush.app to set up the extension."; return
         }
         NSWorkspace.shared.activateFileViewerSelecting([resources.appendingPathComponent("browser-extension")])
     }
@@ -80,7 +80,7 @@ final class BrowserFocusController: ObservableObject {
             let folder = FileManager.default.homeDirectoryForCurrentUser
                 .appendingPathComponent("Library/Application Support/Google/Chrome/NativeMessagingHosts")
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
-            let manifest: [String: Any] = ["name": "com.local.notchtimer.focus", "description": "settime Focus Mode",
+            let manifest: [String: Any] = ["name": "com.local.notchtimer.focus", "description": "Hush Mode for Chrome",
                 "path": helper.path, "type": "stdio", "allowed_origins": ["chrome-extension://\(id)/"]]
             try JSONSerialization.data(withJSONObject: manifest, options: [.prettyPrinted, .sortedKeys])
                 .write(to: folder.appendingPathComponent("com.local.notchtimer.focus.json"), options: .atomic)
@@ -95,6 +95,7 @@ struct BrowserFocusSettingsView: View {
     @ObservedObject var model: TimerModel
     @State private var website = ""
     @State private var extensionID = UserDefaults.standard.string(forKey: "browserFocusExtensionID") ?? ""
+    @State private var extensionSetupExpanded = false
 
     private var timerActive: Bool { model.engine.isRunning && model.engine.mode == .timer }
 
@@ -130,12 +131,12 @@ struct BrowserFocusSettingsView: View {
                 .frame(width: 42, height: 42)
                 .background(.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 13))
             VStack(alignment: .leading, spacing: 3) {
-                Text("Focus Mode").font(.headline)
+                Text("Hush Mode").font(.headline)
                 Text("Block selected sites during focus")
                     .font(.subheadline).foregroundStyle(.secondary)
             }
             Spacer(minLength: 4)
-            Toggle("Enable Focus Mode", isOn: $focus.enabled)
+            Toggle("Enable Hush Mode", isOn: $focus.enabled)
                 .labelsHidden().toggleStyle(.switch).tint(Color(nsColor: .systemGreen))
         }
         .padding(15)
@@ -244,34 +245,48 @@ struct BrowserFocusSettingsView: View {
     }
 
     @ViewBuilder private var connectionSection: some View {
-        DisclosureGroup {
-            VStack(alignment: .leading, spacing: 11) {
-                Text("Load the extension from Chrome’s Extensions page with Developer mode on.")
-                Button { focus.revealExtension() } label: {
-                    Label("Show Extension in Finder", systemImage: "folder")
+        VStack(alignment: .leading, spacing: 0) {
+            Button { extensionSetupExpanded.toggle() } label: {
+                HStack(spacing: 9) {
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 10, weight: .semibold))
+                        .frame(width: 12)
+                        .rotationEffect(.degrees(extensionSetupExpanded ? 90 : 0))
+                    Label("Chrome Extension Setup", systemImage: "puzzlepiece.extension")
+                        .font(.subheadline.weight(.medium))
+                    Spacer(minLength: 0)
                 }
-                .modifier(BrowserFocusPointerStyle())
-                HStack(spacing: 8) {
-                    TextField("Chrome extension ID", text: $extensionID)
-                        .textFieldStyle(.plain)
-                        .padding(.horizontal, 10).padding(.vertical, 8)
-                        .background(.white.opacity(0.075), in: RoundedRectangle(cornerRadius: 9))
-                    Button("Paste", action: pasteExtensionID)
-                        .buttonStyle(.bordered)
-                        .modifier(BrowserFocusPointerStyle())
-                }
-                Button("Connect Chrome") { focus.connect(extensionID: extensionID) }
-                    .buttonStyle(.borderedProminent).tint(Color(nsColor: .systemGreen))
-                    .modifier(BrowserFocusPointerStyle())
-                Text("Keep Notch Timer in its installed location. Reconnect if you move it.")
-                    .font(.caption).foregroundStyle(.tertiary)
+                .foregroundStyle(.secondary)
+                .contentShape(Rectangle())
             }
-            .font(.callout).padding(.top, 10)
-        } label: {
-            Label("Chrome Extension Setup", systemImage: "puzzlepiece.extension")
-                .font(.subheadline.weight(.medium))
+            .buttonStyle(.plain)
+            .modifier(BrowserFocusPointerStyle())
+            .accessibilityValue(extensionSetupExpanded ? "Expanded" : "Collapsed")
+            if extensionSetupExpanded {
+                VStack(alignment: .leading, spacing: 11) {
+                    Text("Load the extension from Chrome’s Extensions page with Developer mode on.")
+                    Button { focus.revealExtension() } label: {
+                        Label("Show Extension in Finder", systemImage: "folder")
+                    }
+                    .modifier(BrowserFocusPointerStyle())
+                    HStack(spacing: 8) {
+                        TextField("Chrome extension ID", text: $extensionID)
+                            .textFieldStyle(.plain)
+                            .padding(.horizontal, 10).padding(.vertical, 8)
+                            .background(.white.opacity(0.075), in: RoundedRectangle(cornerRadius: 9))
+                        Button("Paste", action: pasteExtensionID)
+                            .buttonStyle(.bordered)
+                            .modifier(BrowserFocusPointerStyle())
+                    }
+                    Button("Connect Chrome") { focus.connect(extensionID: extensionID) }
+                        .buttonStyle(.borderedProminent).tint(Color(nsColor: .systemGreen))
+                        .modifier(BrowserFocusPointerStyle())
+                    Text("Keep hush in its installed location. Reconnect if you move it.")
+                        .font(.caption).foregroundStyle(.tertiary)
+                }
+                .font(.callout).padding(.top, 10)
+            }
         }
-        .tint(.secondary)
         .padding(14)
         .background(.white.opacity(0.045), in: RoundedRectangle(cornerRadius: 15))
         if !focus.message.isEmpty {

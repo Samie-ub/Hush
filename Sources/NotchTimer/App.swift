@@ -102,13 +102,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.mainMenu = mainMenu
 
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-        statusItem.button?.image = NSImage(systemSymbolName: "timer", accessibilityDescription: "settime")
+        statusItem.button?.image = NSImage(systemSymbolName: "moon.stars", accessibilityDescription: "hush")
         let menu = NSMenu()
-        menu.addItem(withTitle: "settime", action: nil, keyEquivalent: "")
+        menu.addItem(withTitle: "hush", action: nil, keyEquivalent: "")
         menu.addItem(.separator())
         let settingsItem = menu.addItem(withTitle: "Show Controls", action: #selector(showSettings), keyEquivalent: ",")
         settingsItem.target = self
-        let focusItem = menu.addItem(withTitle: "Focus Mode…", action: #selector(showBrowserFocus), keyEquivalent: "")
+        let focusItem = menu.addItem(withTitle: "Hush Mode…", action: #selector(showBrowserFocus), keyEquivalent: "")
         focusItem.target = self
         let toggleItem = menu.addItem(withTitle: "Start / Pause", action: #selector(toggleTimer), keyEquivalent: "")
         toggleItem.target = self
@@ -122,7 +122,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let automaticItem = menu.addItem(withTitle: "Automatically Check for Updates", action: #selector(UpdateController.toggleAutomaticChecks(_:)), keyEquivalent: "")
         automaticItem.target = updates
         menu.addItem(.separator())
-        menu.addItem(withTitle: "Quit settime", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        menu.addItem(withTitle: "Quit hush", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         statusItem.menu = menu
     }
 

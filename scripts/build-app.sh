@@ -5,17 +5,17 @@ cd "$(dirname "$0")/.."
 export CLANG_MODULE_CACHE_PATH="$PWD/.build/clang-module-cache"
 swift build -c release --disable-sandbox
 BIN_DIR="$(swift build -c release --show-bin-path)"
-APP="$PWD/dist/settime.app"
+APP="$PWD/dist/hush.app"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
-if [ ! -f resources/settime.icns ]; then
-    swift scripts/make-app-icon.swift resources/settime.iconset
+if [ ! -f resources/hush.icns ]; then
+    swift scripts/make-app-icon.swift resources/hush.iconset
 fi
 cp "$BIN_DIR/NotchTimer" "$APP/Contents/MacOS/NotchTimer"
 SPARKLE="$PWD/.build/artifacts/sparkle/Sparkle/Sparkle.xcframework/macos-arm64_x86_64/Sparkle.framework"
 mkdir -p "$APP/Contents/Frameworks"
 ditto "$SPARKLE" "$APP/Contents/Frameworks/Sparkle.framework"
 cp "$PWD/.build/artifacts/sparkle/Sparkle/LICENSE" "$APP/Contents/Resources/Sparkle-LICENSE.txt"
-cp resources/settime.icns "$APP/Contents/Resources/settime.icns"
+cp resources/hush.icns "$APP/Contents/Resources/hush.icns"
 # Compile the Chrome-only helper separately so plain `swift run` remains unambiguous.
 swiftc -O -target "$(uname -m)-apple-macosx14.0" \
     Sources/TimerCore/TimerEngine.swift Sources/TimerCore/BrowserFocus.swift \
@@ -29,9 +29,9 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
-    <key>CFBundleName</key><string>settime</string>
-    <key>CFBundleDisplayName</key><string>settime</string>
-    <key>CFBundleIconFile</key><string>settime</string>
+    <key>CFBundleName</key><string>hush</string>
+    <key>CFBundleDisplayName</key><string>hush</string>
+    <key>CFBundleIconFile</key><string>hush</string>
     <key>CFBundleIdentifier</key><string>com.local.notchtimer</string>
     <key>CFBundleExecutable</key><string>NotchTimer</string>
     <key>CFBundlePackageType</key><string>APPL</string>
