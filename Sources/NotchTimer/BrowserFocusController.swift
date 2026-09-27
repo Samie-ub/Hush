@@ -125,7 +125,7 @@ struct BrowserFocusSettingsView: View {
 
     private var focusToggle: some View {
         HStack(spacing: 14) {
-            Image(systemName: "scope")
+            Image(systemName: "moon.stars")
                 .font(.system(size: 18, weight: .medium))
                 .foregroundStyle(Color(nsColor: .systemGreen))
                 .frame(width: 42, height: 42)
@@ -248,13 +248,13 @@ struct BrowserFocusSettingsView: View {
         VStack(alignment: .leading, spacing: 0) {
             Button { extensionSetupExpanded.toggle() } label: {
                 HStack(spacing: 9) {
+                    Label("Chrome Extension Setup", systemImage: "puzzlepiece.extension")
+                        .font(.subheadline.weight(.medium))
+                    Spacer(minLength: 0)
                     Image(systemName: "chevron.right")
                         .font(.system(size: 10, weight: .semibold))
                         .frame(width: 12)
                         .rotationEffect(.degrees(extensionSetupExpanded ? 90 : 0))
-                    Label("Chrome Extension Setup", systemImage: "puzzlepiece.extension")
-                        .font(.subheadline.weight(.medium))
-                    Spacer(minLength: 0)
                 }
                 .foregroundStyle(.secondary)
                 .contentShape(Rectangle())
@@ -265,10 +265,6 @@ struct BrowserFocusSettingsView: View {
             if extensionSetupExpanded {
                 VStack(alignment: .leading, spacing: 11) {
                     Text("Load the extension from Chrome’s Extensions page with Developer mode on.")
-                    Button { focus.revealExtension() } label: {
-                        Label("Show Extension in Finder", systemImage: "folder")
-                    }
-                    .modifier(BrowserFocusPointerStyle())
                     HStack(spacing: 8) {
                         TextField("Chrome extension ID", text: $extensionID)
                             .textFieldStyle(.plain)
@@ -278,9 +274,25 @@ struct BrowserFocusSettingsView: View {
                             .buttonStyle(.bordered)
                             .modifier(BrowserFocusPointerStyle())
                     }
-                    Button("Connect Chrome") { focus.connect(extensionID: extensionID) }
-                        .buttonStyle(.borderedProminent).tint(Color(nsColor: .systemGreen))
+                    HStack(spacing: 8) {
+                        Button { focus.revealExtension() } label: {
+                            Label("Show Folder", systemImage: "folder")
+                                .font(.system(size: 13, weight: .medium))
+                                .frame(maxWidth: .infinity).frame(height: 34)
+                                .background(.white.opacity(0.09), in: RoundedRectangle(cornerRadius: 9))
+                        }
+                        .buttonStyle(.plain)
                         .modifier(BrowserFocusPointerStyle())
+                        Button { focus.connect(extensionID: extensionID) } label: {
+                            Text("Connect Chrome")
+                                .font(.system(size: 13, weight: .semibold))
+                                .foregroundStyle(.black)
+                                .frame(maxWidth: .infinity).frame(height: 34)
+                                .background(Color(nsColor: .systemGreen), in: RoundedRectangle(cornerRadius: 9))
+                        }
+                        .buttonStyle(.plain)
+                        .modifier(BrowserFocusPointerStyle())
+                    }
                     Text("Keep hush in its installed location. Reconnect if you move it.")
                         .font(.caption).foregroundStyle(.tertiary)
                 }

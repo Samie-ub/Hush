@@ -102,7 +102,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.mainMenu = mainMenu
 
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-        statusItem.button?.image = NSImage(systemSymbolName: "moon.stars", accessibilityDescription: "hush")
+        statusItem.button?.image = NSImage(systemSymbolName: "timer", accessibilityDescription: "hush")
         let menu = NSMenu()
         menu.addItem(withTitle: "hush", action: nil, keyEquivalent: "")
         menu.addItem(.separator())

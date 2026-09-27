@@ -51,7 +51,7 @@ Pause before changing mode or duration. Unapplied custom-time changes are discar
 
 1. Build the app and keep `dist/hush.app` in its final location (or copy it to Applications before setup).
 2. Launch that build, then click the **target icon** in the notch controls, or choose **Hush Mode…** from the menu bar menu.
-3. Expand **Chrome Extension Setup** and click **Show Extension in Finder**.
+3. Expand **Chrome Extension Setup** and click **Show Folder**.
 4. In Chrome, open `chrome://extensions`, enable **Developer mode**, choose **Load unpacked**, and select that `browser-extension` folder.
 5. Copy the extension's ID into Hush Mode settings and click **Connect Chrome**. The extension popup should say **Connected · sites are unlocked**.
 6. Add websites, enable Hush Mode, and start a countdown. Stopwatch mode does not block sites.
