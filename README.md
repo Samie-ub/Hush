@@ -22,7 +22,7 @@ A minimal timer and stopwatch for macOS, built with SwiftUI and AppKit. Hover to
 Requires **macOS 14+** and a **Swift 6 toolchain** (Xcode or Command Line Tools).
 
 ```sh
-git clone https://github.com/Samie-ub/notch-timer.git
+git clone https://github.com/Samie-ub/Hush.git
 cd notch-timer
 bash scripts/build-app.sh
 open dist/hush.app

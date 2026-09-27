@@ -29,7 +29,7 @@ cannot trust releases signed with a replacement key.
    ```
 
 The configured feed is
-`https://github.com/Samie-ub/notch-timer/releases/latest/download/appcast.xml`.
+`https://github.com/Samie-ub/Hush/releases/latest/download/appcast.xml`.
 The repository/release assets must be publicly readable without authentication.
 Never edit the generated enclosure signature or ZIP after signing.
 

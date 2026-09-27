@@ -21,5 +21,5 @@ fi
 mkdir -p "$OUT"
 ditto -c -k --sequesterRsrc --keepParent "$PWD/dist/hush.app" "$OUT/hush-$VERSION.zip"
 "$TOOLS/generate_appcast" --account "$ACCOUNT" --maximum-deltas 0 \
-    --download-url-prefix "https://github.com/Samie-ub/notch-timer/releases/download/v$VERSION/" "$OUT"
+    --download-url-prefix "https://github.com/Samie-ub/Hush/releases/download/v$VERSION/" "$OUT"
 echo "Signed release assets ready: $OUT"
